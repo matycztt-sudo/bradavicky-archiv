@@ -170,6 +170,141 @@ padding:25px 0;
 color:#bca477;
 letter-spacing:2px;
 }
+</style><style>
+/* BRONZOVÉ KARTY */
+#cards .card {
+  background: linear-gradient(
+    145deg,
+    #e5b68a,
+    #a56839 45%,
+    #704021 75%,
+    #c58a55
+  );
+  color: #fff0d5;
+  border: 2px solid #c68d59;
+  text-shadow: 0 1px 3px #0008;
+}
+
+/* STŘÍBRNÉ KARTY */
+#cards .card:is(
+  [aria-label^="Karta 3:"],
+  [aria-label^="Karta 8:"],
+  [aria-label^="Karta 13:"],
+  [aria-label^="Karta 14:"],
+  [aria-label^="Karta 16:"],
+  [aria-label^="Karta 17:"],
+  [aria-label^="Karta 20:"],
+  [aria-label^="Karta 22:"],
+  [aria-label^="Karta 23:"],
+  [aria-label^="Karta 27:"],
+  [aria-label^="Karta 30:"],
+  [aria-label^="Karta 34:"],
+  [aria-label^="Karta 35:"],
+  [aria-label^="Karta 36:"],
+  [aria-label^="Karta 38:"],
+  [aria-label^="Karta 39:"],
+  [aria-label^="Karta 42:"],
+  [aria-label^="Karta 43:"],
+  [aria-label^="Karta 45:"],
+  [aria-label^="Karta 52:"],
+  [aria-label^="Karta 54:"],
+  [aria-label^="Karta 55:"],
+  [aria-label^="Karta 56:"],
+  [aria-label^="Karta 59:"],
+  [aria-label^="Karta 60:"],
+  [aria-label^="Karta 62:"],
+  [aria-label^="Karta 65:"],
+  [aria-label^="Karta 68:"],
+  [aria-label^="Karta 70:"],
+  [aria-label^="Karta 71:"],
+  [aria-label^="Karta 73:"],
+  [aria-label^="Karta 79:"],
+  [aria-label^="Karta 84:"],
+  [aria-label^="Karta 85:"],
+  [aria-label^="Karta 87:"],
+  [aria-label^="Karta 89:"],
+  [aria-label^="Karta 90:"],
+  [aria-label^="Karta 92:"],
+  [aria-label^="Karta 97:"],
+  [aria-label^="Karta 98:"],
+  [aria-label^="Karta 99:"]
+) {
+  background: linear-gradient(
+    145deg,
+    #f1f5ff,
+    #a8b3c4 35%,
+    #586575 70%,
+    #dce4ef
+  );
+  color: #17212f;
+  border-color: #e1e8f2;
+  text-shadow: none;
+}
+
+/* ZLATÉ KARTY */
+#cards .card:is(
+  [aria-label^="Karta 11:"],
+  [aria-label^="Karta 15:"],
+  [aria-label^="Karta 40:"],
+  [aria-label^="Karta 41:"],
+  [aria-label^="Karta 48:"],
+  [aria-label^="Karta 69:"],
+  [aria-label^="Karta 72:"],
+  [aria-label^="Karta 74:"],
+  [aria-label^="Karta 82:"],
+  [aria-label^="Karta 101:"]
+) {
+  background: linear-gradient(
+    145deg,
+    #fff1b0,
+    #e8bd4e 35%,
+    #a47718 70%,
+    #f9d978
+  );
+  color: #3e2908;
+  border-color: #ffe18a;
+  text-shadow: none;
+}
+
+/* NEMÁM */
+#cards .card[data-state="0"] {
+  opacity: .7;
+  box-shadow: 0 3px 8px #0006;
+}
+
+/* MÁM U SEBE */
+#cards .card[data-state="1"] {
+  opacity: 1;
+  border-color: #ffe18a;
+  box-shadow:
+    0 0 8px #ffd65c,
+    0 0 16px #ffd65c66;
+}
+
+/* HOTOVO */
+#cards .card[data-state="2"] {
+  opacity: 1;
+  border-color: #8ce4b3;
+  box-shadow:
+    0 0 8px #8ce4b3,
+    0 0 18px #4ac78088;
+}
+
+#cards .card[data-state="2"] .symbol {
+  color: #d0ffe1;
+  background: #174c35;
+  padding: 3px 7px;
+  border-radius: 20px;
+}
+
+#cards .card .inner {
+  background: #0000000d;
+}
+
+#cards .card .number {
+  font-weight: bold;
+  font-size: 28px;
+}
 </style>
 </head>
 <body>
