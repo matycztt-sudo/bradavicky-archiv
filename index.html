@@ -1,140 +1,167 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#15121f">
 <title>Bradavický archiv</title>
+
 <style>
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+
 body{
 margin:0;
 padding:14px;
-min-height:100vh;
-font-family:Georgia,serif;
-color:#e8d4a5;
 background:
-radial-gradient(circle at 15% 20%,#bca47755 1px,transparent 2px),
-radial-gradient(circle at 80% 70%,#ffffff33 1px,transparent 2px),
-radial-gradient(ellipse at top,#30263e,#100e18 75%);
-background-size:113px 137px,173px 191px,100% 100%;
-background-attachment:fixed;
+radial-gradient(circle,#c9ab6555 1px,transparent 2px) 0 0/113px 137px,
+radial-gradient(ellipse at top,#30263e,#100e18 75%) fixed;
+color:#e8d4a5;
+font-family:Georgia,serif;
 }
+
 main{max-width:1000px;margin:auto}
-.panel{
-background:#1b1725;
+
+.panel,.set{
 border:1px solid #9d8050;
 border-radius:12px;
-padding:20px 12px;
-text-align:center;
-box-shadow:0 8px 30px #0006;
+background:#1b1725;
+padding:14px;
+margin-bottom:14px;
+box-shadow:0 5px 20px #0005;
 }
-.magic{font-size:38px;color:#edcc80}
-.subtitle{
-font-size:11px;
-letter-spacing:3px;
-color:#bca477;
-}
+
+header,#login{text-align:center}
+#login{max-width:420px;margin:8vh auto}
+
 h1{
+font-size:clamp(25px,5vw,38px);
 color:#f3d58d;
-font-size:clamp(24px,5vw,38px);
-margin:12px 0;
 }
-h2{color:#f3d58d}
-#login{
-max-width:420px;
-margin:8vh auto 20px;
+
+h2{
+text-align:center;
+color:#f3d58d;
+font-size:22px;
+margin:32px 0 18px;
 }
+
+h3{font-size:16px;margin:0}
+.magic{font-size:36px;color:#edcc80}
+small{letter-spacing:1px}
+
 input,button,select{
-font-family:inherit;
+font:inherit;
 font-size:16px;
 border:1px solid #927746;
 border-radius:7px;
 padding:12px;
-touch-action:manipulation;
-}
-input{
-width:100%;
-margin:6px 0;
-background:#100e18;
-color:#f3d58d;
-}
-button,select{
 background:#262032;
 color:#e8d4a5;
-cursor:pointer;
+touch-action:manipulation;
 }
-button:disabled{opacity:.5;cursor:wait}
+
+input,#login button{
+width:100%;
+margin:5px 0;
+}
+
+button{cursor:pointer}
+button:disabled{opacity:.5}
+
 .primary{
-background:linear-gradient(145deg,#f3d58d,#b28a43);
+background:#e6c477;
 color:#302013;
-font-weight:bold;
 }
-.full{width:100%;margin-top:10px}
-.message{
-font-size:13px;
-line-height:1.5;
-overflow-wrap:anywhere;
-}
+
 .stats{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin:20px 0 12px;
+gap:6px;
+margin:12px 0;
 }
+
 .stat{
 border:1px solid #76603d;
 border-radius:7px;
-padding:12px 3px;
+padding:10px 2px;
 font-size:12px;
 }
-.stat strong{
+
+.stat b{
 display:block;
-font-size:28px;
-margin-bottom:5px;
+font-size:25px;
 }
-.gold{color:#f6cf70}
-.green{color:#8ce4b3}
-.progress{
-height:10px;
-border:1px solid #927746;
-border-radius:20px;
-overflow:hidden;
-background:#0e0c15;
+
+.tokens{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
 }
-#bar{
-height:100%;
-width:0;
-background:linear-gradient(90deg,#997033,#f5d887);
-transition:width .3s;
-}
+
+.tokens .stat:first-child{color:#b9caff}
+.tokens .stat:last-child{color:#e7b6ff}
+
 .controls{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:14px;
+}
+
+.heading{
 display:flex;
 justify-content:space-between;
 gap:8px;
-margin-top:15px;
-flex-wrap:wrap;
+align-items:center;
 }
-#cards{
+
+.cards{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(72px,1fr));
-gap:9px;
-margin-top:18px;
+grid-template-columns:repeat(5,minmax(0,1fr));
+gap:5px;
+margin:12px 0;
 }
+
+/* BRONZOVÉ KARTY */
+
 .card{
-aspect-ratio:3/4;
+padding:3px;
 min-width:0;
-border:1px solid #ad905b;
-border-radius:7px;
-padding:5px;
-background:linear-gradient(145deg,#f1dfb7,#bba078);
-color:#49351e;
-box-shadow:0 4px 8px #0006;
-transition:transform .15s;
+min-height:100px;
+aspect-ratio:3/4;
+background:linear-gradient(
+145deg,#e5b68a,#a56839 45%,#704021 75%,#c58a55
+);
+color:#fff0d5;
+border:2px solid #c68d59;
+text-shadow:0 1px 3px #0008;
 }
-.card:active{transform:scale(.93)}
+
+/* STŘÍBRNÉ KARTY */
+
+.card.silver{
+background:linear-gradient(
+145deg,#f1f5ff,#a8b3c4 40%,#8995a5 70%,#dce4ef
+);
+color:#17212f;
+border-color:#e1e8f2;
+text-shadow:none;
+}
+
+/* ZLATÉ KARTY */
+
+.card.gold{
+background:linear-gradient(
+145deg,#fff1b0,#e8bd4e 40%,#b58b32 70%,#f9d978
+);
+color:#3e2908;
+border-color:#ffe18a;
+text-shadow:none;
+}
+
 .inner{
 border:1px solid currentColor;
 border-radius:4px;
@@ -143,254 +170,232 @@ display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-gap:5px;
+gap:4px;
+padding:3px 0;
 }
-.symbol{font-size:17px}
-.number{font-size:27px;font-weight:bold}
-.label{font-size:10px}
-.card[data-state="1"]{
-background:linear-gradient(145deg,#ffe6a0,#c5912e);
-color:#513707;
-box-shadow:0 0 13px #e9b84b77;
+
+.number{
+font-size:clamp(20px,5vw,32px);
+font-weight:bold;
 }
-.card[data-state="2"]{
-background:linear-gradient(145deg,#326a50,#133b30);
-color:#c6f5d8;
-border-color:#8ad6a9;
-box-shadow:0 0 13px #4ac78055;
-}
-#sync{font-size:13px;color:#8ce4b3}
-#account{
-font-size:12px;
+
+.name{
+font-size:clamp(9px,2.5vw,15px);
 overflow-wrap:anywhere;
+max-width:100%;
 }
+
+.label{font-size:10px}
+
+/* STAVY KARTIČEK */
+
+.card[data-state="0"]{
+opacity:.75;
+}
+
+.card[data-state="1"]{
+border-color:#ffe18a;
+box-shadow:0 0 9px #ffd65c;
+}
+
+.card[data-state="2"]{
+border-color:#8ce4b3;
+box-shadow:0 0 10px #4ac780;
+}
+
+.card[data-state="2"] .symbol{
+background:#174c35;
+color:#d0ffe1;
+border-radius:12px;
+padding:2px 5px;
+}
+
+.progress{
+height:6px;
+background:#100e18;
+border-radius:8px;
+overflow:hidden;
+}
+
+.progress i{
+display:block;
+height:100%;
+background:#d9b76d;
+}
+
+.complete{
+border-color:#ffe18a;
+box-shadow:0 0 14px #d9b76d66;
+}
+
+.token{
+text-align:center;
+font-size:12px;
+margin:8px 0 0;
+}
+
+.complete .token,#sync{
+color:#8ce4b3;
+}
+
+#message,#account,#sync{
+overflow-wrap:anywhere;
+font-size:13px;
+}
+
 footer{
 text-align:center;
-padding:25px 0;
-color:#bca477;
-letter-spacing:2px;
-}
-</style><style>
-/* BRONZOVÉ KARTY */
-#cards .card {
-  background: linear-gradient(
-    145deg,
-    #e5b68a,
-    #a56839 45%,
-    #704021 75%,
-    #c58a55
-  );
-  color: #fff0d5;
-  border: 2px solid #c68d59;
-  text-shadow: 0 1px 3px #0008;
+padding:20px;
 }
 
-/* STŘÍBRNÉ KARTY */
-#cards .card:is(
-  [aria-label^="Karta 3:"],
-  [aria-label^="Karta 8:"],
-  [aria-label^="Karta 13:"],
-  [aria-label^="Karta 14:"],
-  [aria-label^="Karta 16:"],
-  [aria-label^="Karta 17:"],
-  [aria-label^="Karta 20:"],
-  [aria-label^="Karta 22:"],
-  [aria-label^="Karta 23:"],
-  [aria-label^="Karta 27:"],
-  [aria-label^="Karta 30:"],
-  [aria-label^="Karta 34:"],
-  [aria-label^="Karta 35:"],
-  [aria-label^="Karta 36:"],
-  [aria-label^="Karta 38:"],
-  [aria-label^="Karta 39:"],
-  [aria-label^="Karta 42:"],
-  [aria-label^="Karta 43:"],
-  [aria-label^="Karta 45:"],
-  [aria-label^="Karta 52:"],
-  [aria-label^="Karta 54:"],
-  [aria-label^="Karta 55:"],
-  [aria-label^="Karta 56:"],
-  [aria-label^="Karta 59:"],
-  [aria-label^="Karta 60:"],
-  [aria-label^="Karta 62:"],
-  [aria-label^="Karta 65:"],
-  [aria-label^="Karta 68:"],
-  [aria-label^="Karta 70:"],
-  [aria-label^="Karta 71:"],
-  [aria-label^="Karta 73:"],
-  [aria-label^="Karta 79:"],
-  [aria-label^="Karta 84:"],
-  [aria-label^="Karta 85:"],
-  [aria-label^="Karta 87:"],
-  [aria-label^="Karta 89:"],
-  [aria-label^="Karta 90:"],
-  [aria-label^="Karta 92:"],
-  [aria-label^="Karta 97:"],
-  [aria-label^="Karta 98:"],
-  [aria-label^="Karta 99:"]
-) {
-  background: linear-gradient(
-    145deg,
-    #f1f5ff,
-    #a8b3c4 35%,
-    #586575 70%,
-    #dce4ef
-  );
-  color: #17212f;
-  border-color: #e1e8f2;
-  text-shadow: none;
-}
-
-/* ZLATÉ KARTY */
-#cards .card:is(
-  [aria-label^="Karta 11:"],
-  [aria-label^="Karta 15:"],
-  [aria-label^="Karta 40:"],
-  [aria-label^="Karta 41:"],
-  [aria-label^="Karta 48:"],
-  [aria-label^="Karta 69:"],
-  [aria-label^="Karta 72:"],
-  [aria-label^="Karta 74:"],
-  [aria-label^="Karta 82:"],
-  [aria-label^="Karta 101:"]
-) {
-  background: linear-gradient(
-    145deg,
-    #fff1b0,
-    #e8bd4e 35%,
-    #a47718 70%,
-    #f9d978
-  );
-  color: #3e2908;
-  border-color: #ffe18a;
-  text-shadow: none;
-}
-
-/* NEMÁM */
-#cards .card[data-state="0"] {
-  opacity: .7;
-  box-shadow: 0 3px 8px #0006;
-}
-
-/* MÁM U SEBE */
-#cards .card[data-state="1"] {
-  opacity: 1;
-  border-color: #ffe18a;
-  box-shadow:
-    0 0 8px #ffd65c,
-    0 0 16px #ffd65c66;
-}
-
-/* HOTOVO */
-#cards .card[data-state="2"] {
-  opacity: 1;
-  border-color: #8ce4b3;
-  box-shadow:
-    0 0 8px #8ce4b3,
-    0 0 18px #4ac78088;
-}
-
-#cards .card[data-state="2"] .symbol {
-  color: #d0ffe1;
-  background: #174c35;
-  padding: 3px 7px;
-  border-radius: 20px;
-}
-
-#cards .card .inner {
-  background: #0000000d;
-}
-
-#cards .card .number {
-  font-weight: bold;
-  font-size: 28px;
+@media(max-width:380px){
+body{padding:7px}
+.set{padding:7px}
+.label{font-size:9px}
+.cards{gap:3px}
 }
 </style>
 </head>
+
 <body>
 <main>
 
+<!-- PŘIHLÁŠENÍ -->
+
 <section id="login" class="panel">
+
 <div class="magic">✦ ⚡ ✦</div>
-<div class="subtitle">BRADAVICKÝ ARCHIV</div>
-<h1>Kniha kouzelných karet</h1>
-<p>Vstup do kouzelnického světa</p>
+<small>BRADAVICKÝ ARCHIV</small>
+<h1>Kniha kouzelných sad</h1>
 
-<input id="email" type="email"
-placeholder="E-mailová adresa"
-autocomplete="email">
+<input id="email"
+type="email"
+autocomplete="email"
+placeholder="E-mail"
+aria-label="E-mail">
 
-<input id="password" type="password"
+<input id="password"
+type="password"
+autocomplete="current-password"
 placeholder="Heslo"
-autocomplete="current-password">
+aria-label="Heslo">
 
-<button id="signin" class="primary full" disabled>
+<button id="signin" class="primary" disabled>
 Přihlásit se
 </button>
 
-<button id="register" class="full" disabled>
-Vytvořit kouzelnický účet
+<button id="register" disabled>
+Vytvořit účet
 </button>
 
-<button id="forgot" class="full" disabled>
+<button id="forgot" disabled>
 Zapomenuté heslo
 </button>
 
-<p id="message" class="message">
-Načítání kouzelnického portálu…
+<p id="message">
+Načítání portálu…
 </p>
-<div class="subtitle">✧ ALOHOMORA ✧</div>
+
 </section>
 
+<!-- HLAVNÍ ARCHIV -->
+
 <section id="archive" hidden>
+
 <header class="panel">
+
 <div class="magic">✦ ☾ ✦</div>
-<div class="subtitle">BRADAVICKÝ ARCHIV</div>
-<h1>Kniha kouzelných karet</h1>
-<div class="subtitle">SBÍRKA I – CI</div>
+<small>BRADAVICKÝ ARCHIV · III</small>
+<h1>Kniha kouzelných sad</h1>
+
 <p id="account"></p>
-<p id="sync">Připojování k databázi…</p>
+<p id="sync"></p>
 
 <div class="stats">
+
 <div class="stat">
-<strong id="missing">101</strong>Nemám
+<b id="missing">100</b>
+Nemám
 </div>
-<div class="stat gold">
-<strong id="owned">0</strong>Mám u sebe
+
+<div class="stat">
+<b id="owned">0</b>
+Mám u sebe
 </div>
-<div class="stat green">
-<strong id="done">0</strong>Hotovo
+
+<div class="stat">
+<b id="done">0</b>
+Hotovo
 </div>
+
 </div>
 
 <div class="progress">
-<div id="bar"></div>
+<i id="bar"></i>
 </div>
 
-<p id="percent">0 / 101 · 0 %</p>
-<p>Nemám → Mám → Hotovo</p>
+<p id="percent"></p>
+
+<div class="tokens">
+
+<div class="stat">
+<b id="intellect">0 / 10</b>
+✧ Tokeny intelektu
+</div>
+
+<div class="stat">
+<b id="power">0 / 10</b>
+⚡ Tokeny magické síly
+</div>
+
+</div>
+
+<p id="completed"></p>
+
+<small>
+Nemám → Mám → Hotovo → Nemám
+</small>
 
 <div class="controls">
+
 <select id="filter">
 <option value="all">Všechny karty</option>
 <option value="0">Nemám</option>
 <option value="1">Mám u sebe</option>
 <option value="2">Hotovo</option>
 </select>
-<button id="reset" disabled>Vynulovat</button>
-<button id="logout">Odhlásit se</button>
+
+<select id="category">
+<option value="all">Všechny sady</option>
+<option value="0">Intelekt</option>
+<option value="1">Magická síla</option>
+</select>
+
+<button id="reset" disabled>
+Vynulovat
+</button>
+
+<button id="logout">
+Odhlásit se
+</button>
+
 </div>
+
 </header>
 
-<section id="cards"></section>
-<footer>✦ Mischief managed ✦</footer>
-</section>
+<div id="sets"></div>
 
+<footer>
+✦ Mischief managed ✦
+</footer>
+
+</section>
 </main>
 
 <script type="module">
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+
+import {initializeApp}
+from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js';
 
 import {
 getAuth,
@@ -399,248 +404,586 @@ signInWithEmailAndPassword,
 onAuthStateChanged,
 sendPasswordResetEmail,
 signOut
-} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+}
+from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js';
 
 import {
 getFirestore,
 doc,
 setDoc,
 onSnapshot
-} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+}
+from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js';
 
-const firebaseConfig = {
-apiKey: "AIzaSyBt-Y_2EttZ9zqcccBeZuZAVa4gmTCPafA",
-authDomain: "bradavicky-archiv.firebaseapp.com",
-projectId: "bradavicky-archiv",
-storageBucket: "bradavicky-archiv.firebasestorage.app",
-messagingSenderId: "871394630583",
-appId: "1:871394630583:web:408afaa6bf8ba46c40e632"
-};
+/* FIREBASE */
 
-const app=initializeApp(firebaseConfig);
+const app=initializeApp({
+apiKey:'AIzaSyBt-Y_2EttZ9zqcccBeZuZAVa4gmTCPafA',
+authDomain:'bradavicky-archiv.firebaseapp.com',
+projectId:'bradavicky-archiv',
+storageBucket:'bradavicky-archiv.firebasestorage.app',
+messagingSenderId:'871394630583',
+appId:'1:871394630583:web:408afaa6bf8ba46c40e632'
+});
+
 const auth=getAuth(app);
 const db=getFirestore(app);
-auth.languageCode="cs";
 
-const get=id=>document.getElementById(id);
-const labels=["Nemám","Mám","Hotovo"];
-const symbols=["✧","✦","✓✓"];
+auth.languageCode='cs';
 
-let states=Array(101).fill(0);
-let currentUser=null;
-let unsubscribe=null;
+/* VŠECH 20 SAD */
+
+const raw=[
+
+// INTELEKT I.
+'1 Merlin|2 Agrippa|3 Clagg|4 Stump|8 Shimpling',
+
+// INTELEKT II.
+'5 Pokeby|6 Peakes|11 Foul|13 Invincible|14 Fearful',
+
+// INTELEKT III.
+'7 Starky|9 Gorsemoor|10 Muldoon|16 Cliodne|17 Morgana',
+
+// INTELEKT IV.
+'12 Malicious|15 Paracelsus|18 Oddball|20 Vendelina|22 Circe',
+
+// INTELEKT V.
+'19 Scamander|21 Withers|23 Glenda|24 Waffling|27 Plunkett',
+
+// INTELEKT VI.
+'25 Perpetua|26 Sawbridge|30 Lufkin|34 Tremlett|40 Pinkstone',
+
+// INTELEKT VII.
+'28 Toke|29 Aldeton|31 Bame|35 Wright|36 Wackock',
+
+// INTELEKT VIII.
+'32 Wenlock|33 Majorbanks|38 Oldridge|39 Jones|41 Nebelvir',
+
+// INTELEKT IX.
+'37 Walblattsky|42 Cronk|43 Youdle|44 Whitehorn|46 Goshawk',
+
+// INTELEKT X.
+'45 Oglethorpe|47 Stroulgeer|48 Zmijozel|49 Ketteridge|52 Felix',
+
+// MAGICKÁ SÍLA I.
+'50 Barkwith|51 Ready|53 Catchglove|54 Schingleton|55 Nutcombe',
+
+// MAGICKÁ SÍLA II.
+'56 Cramb|57 Ollerton|58 Hipworth|59 Smarmy|69 Bott',
+
+// MAGICKÁ SÍLA III.
+'60 Montmorency|61 Sweeting|62 Wildsmith|63 Wintringham|64 Sykes',
+
+// MAGICKÁ SÍLA IV.
+'65 Oliphant|66 Belby|67 Pilliwickle|68 Duke|72 Helga',
+
+// MAGICKÁ SÍLA V.
+'70 Smethwyck|71 Maeve|75 Bonham|76 Wagtail|77 Twonk',
+
+// MAGICKÁ SÍLA VI.
+'73 Mopsus|74 Knightly|78 Thurston|79 Beamish|80 Bloxam',
+
+// MAGICKÁ SÍLA VII.
+'81 Po|83 Plumpton|84 Kegg|87 Thurkel|89 Toothill',
+
+// MAGICKÁ SÍLA VIII.
+'82 Rowena|85 Stalk|86 Wellbeloved|88 Warbeck|90 Tugwood',
+
+// MAGICKÁ SÍLA IX.
+'91 Elphick|92 Rastrick|93 Barbary|94 Grawes|97 Grunion',
+
+// MAGICKÁ SÍLA X.
+'95 Platt|96 Woodcroft|98 Furmage|99 Dodderidge|101 Brumbal'
+
+];
+
+const groups=raw.map(s=>
+s.split('|').map(c=>{
+const i=c.indexOf(' ');
+return [
+Number(c.slice(0,i)),
+c.slice(i+1)
+];
+})
+);
+
+const ids=groups.flat().map(c=>c[0]);
+
+/* VZÁCNOST KARTIČEK */
+
+const silver=new Set([
+3,8,13,14,16,17,20,22,23,27,
+30,34,35,36,38,39,42,43,45,
+52,54,55,56,59,60,62,65,68,
+70,71,73,79,84,87,89,85,90,
+92,97,98,99
+]);
+
+const gold=new Set([
+11,15,40,41,48,69,72,74,82,101
+]);
+
+const $=id=>document.getElementById(id);
+
+const labels=[
+'Nemám',
+'Mám',
+'Hotovo'
+];
+
+const symbols=[
+'✧',
+'✓',
+'✓✓'
+];
+
+const roman=[
+'I','II','III','IV','V',
+'VI','VII','VIII','IX','X'
+];
+
+let states={};
+let user=null;
+let unsub=null;
 let ready=false;
 let pending=0;
 let session=0;
 
-function message(text){
-get("message").textContent=text;
-}
+const state=n=>
+[1,2].includes(states[n])?states[n]:0;
 
-function errorText(e){
+/* CHYBOVÉ HLÁŠKY */
+
+function error(e){
+
 const errors={
-"auth/invalid-email":"Neplatná e-mailová adresa.",
-"auth/email-already-in-use":"Tento e-mail již má účet.",
-"auth/weak-password":"Heslo musí mít alespoň 6 znaků.",
-"auth/invalid-credential":"Nesprávný e-mail nebo heslo.",
-"auth/wrong-password":"Nesprávný e-mail nebo heslo.",
-"auth/user-not-found":"Nesprávný e-mail nebo heslo.",
-"auth/network-request-failed":"Zkontroluj připojení k internetu.",
-"auth/too-many-requests":"Příliš mnoho pokusů. Zkus to později.",
-"auth/operation-not-allowed":"Přihlašování není povoleno ve Firebase.",
-"permission-denied":"Zkontroluj pravidla databáze Firebase."
+'auth/invalid-credential':
+'Nesprávný e-mail nebo heslo.',
+
+'auth/email-already-in-use':
+'Tento e-mail již má účet.',
+
+'auth/weak-password':
+'Heslo musí mít alespoň 6 znaků.',
+
+'auth/invalid-email':
+'Neplatný e-mail.',
+
+'auth/network-request-failed':
+'Zkontroluj internet.',
+
+'permission-denied':
+'Zkontroluj pravidla databáze.'
 };
-return errors[e.code]||"Chyba: "+e.code;
+
+return errors[e.code]||
+('Chyba: '+(e.code||e.message));
+
 }
 
-function lockAuth(value){
-["signin","register","forgot"].forEach(id=>{
-get(id).disabled=value;
+function lock(v){
+
+['signin','register','forgot'].forEach(id=>{
+$(id).disabled=v;
 });
+
 }
 
-get("signin").onclick=async()=>{
-lockAuth(true);
-message("Přihlašování…");
+/* REGISTRACE A PŘIHLÁŠENÍ */
+
+for(const id of ['signin','register','forgot']){
+
+$(id).onclick=async()=>{
+
+lock(true);
+$('message').textContent='Pracuji…';
+
 try{
+
+const email=$('email').value.trim();
+const pass=$('password').value;
+
+if(id==='signin'){
 await signInWithEmailAndPassword(
-auth,get("email").value.trim(),
-get("password").value
+auth,email,pass
 );
-}catch(e){
-message(errorText(e));
-}finally{lockAuth(false)}
-};
-
-get("register").onclick=async()=>{
-lockAuth(true);
-message("Vytváření účtu…");
-try{
-await createUserWithEmailAndPassword(
-auth,get("email").value.trim(),
-get("password").value
-);
-}catch(e){
-message(errorText(e));
-}finally{lockAuth(false)}
-};
-
-get("forgot").onclick=async()=>{
-lockAuth(true);
-try{
-await sendPasswordResetEmail(
-auth,get("email").value.trim()
-);
-message("Pokud účet existuje, obdržíš e-mail pro obnovu hesla.");
-}catch(e){
-message(errorText(e));
-}finally{lockAuth(false)}
-};
-
-get("logout").onclick=async()=>{
-if(pending){
-alert("Počkej na dokončení ukládání.");
-return;
 }
-try{await signOut(auth)}
-catch(e){get("sync").textContent=errorText(e)}
+
+if(id==='register'){
+await createUserWithEmailAndPassword(
+auth,email,pass
+);
+}
+
+if(id==='forgot'){
+
+await sendPasswordResetEmail(auth,email);
+
+$('message').textContent=
+'Pokud účet existuje, přijde e-mail pro obnovu hesla.';
+
+}
+
+}catch(e){
+
+$('message').textContent=error(e);
+
+}finally{
+
+lock(false);
+
+}
+
 };
 
-onAuthStateChanged(auth,user=>{
-session++;
-const activeSession=session;
-if(unsubscribe)unsubscribe();
-unsubscribe=null;
-currentUser=user;
-states=Array(101).fill(0);
+}
+
+/* ODHLÁŠENÍ */
+
+$('logout').onclick=async()=>{
+
+if(pending){
+return alert('Počkej na uložení.');
+}
+
+try{
+
+await signOut(auth);
+
+}catch(e){
+
+$('sync').textContent=error(e);
+
+}
+
+};
+
+/* SYNCHRONIZACE ÚČTU */
+
+onAuthStateChanged(auth,u=>{
+
+const s=++session;
+
+if(unsub)unsub();
+
+user=u;
 ready=false;
 pending=0;
-get("cards").innerHTML="";
-get("reset").disabled=true;
+states={};
 
-if(!user){
-get("login").hidden=false;
-get("archive").hidden=true;
-get("password").value="";
-message("");
-lockAuth(false);
+$('password').value='';
+$('login').hidden=!!u;
+$('archive').hidden=!u;
+$('reset').disabled=true;
+
+if(!u){
+
+lock(false);
+$('message').textContent='';
 return;
+
 }
 
-get("login").hidden=true;
-get("archive").hidden=false;
-get("account").textContent=user.email;
-get("password").value="";
-get("sync").textContent="☁ Načítání sbírky…";
+$('account').textContent=u.email;
+$('sync').textContent='Načítání sbírky…';
 
-const ref=doc(db,"users",user.uid);
+render();
 
-unsubscribe=onSnapshot(ref,
+unsub=onSnapshot(
+
+doc(db,'users',u.uid),
+
 {includeMetadataChanges:true},
-snapshot=>{
-if(activeSession!==session)return;
 
-const data=snapshot.data()||{};
-const cards=data.cards||{};
-states=Array.from({length:101},(_,i)=>{
-const v=cards[String(i+1)];
-return [0,1,2].includes(v)?v:0;
-});
+snap=>{
 
-ready=true;
-get("reset").disabled=false;
+if(s!==session)return;
 
-get("sync").textContent=
-snapshot.metadata.hasPendingWrites?
-"☁ Ukládání…":
-snapshot.metadata.fromCache?
-"☁ Místní data – čekám na připojení":
-"✓ Synchronizováno";
+states=snap.data()?.cards||{};
+
+ready=!snap.metadata.fromCache||ready;
+
+$('reset').disabled=!ready;
+
+$('sync').textContent=
+
+snap.metadata.hasPendingWrites?
+'☁ Ukládání…':
+
+snap.metadata.fromCache?
+'☁ Čekám na připojení':
+
+'✓ Synchronizováno';
 
 render();
-},e=>{
-if(activeSession!==session)return;
+
+},
+
+e=>{
+
+if(s!==session)return;
+
 ready=false;
-get("reset").disabled=true;
-get("sync").textContent=errorText(e);
+$('reset').disabled=true;
+$('sync').textContent=error(e);
+
 render();
-});
+
+}
+
+);
+
 });
 
-async function saveCards(cards){
-if(!currentUser||!ready)return;
-const activeSession=session;
-const ref=doc(db,"users",currentUser.uid);
+/* UKLÁDÁNÍ KARET */
+
+async function save(cards){
+
+if(!ready||!user)return;
+
+const s=session;
+
 pending++;
-get("sync").textContent="☁ Ukládání…";
+
+$('sync').textContent='☁ Ukládání…';
+
 try{
-await setDoc(ref,{cards},{merge:true});
+
+await setDoc(
+doc(db,'users',user.uid),
+{cards},
+{merge:true}
+);
+
 }catch(e){
-if(activeSession===session){
-get("sync").textContent=errorText(e);
+
+if(s===session){
+$('sync').textContent=error(e);
 }
+
 }finally{
-if(activeSession===session)pending--;
+
+if(s===session)pending--;
+
 }
+
 }
+
+/* VYKRESLENÍ ARCHIVU */
 
 function render(){
+
 const counts=[0,0,0];
-states.forEach(s=>counts[s]++);
 
-get("missing").textContent=counts[0];
-get("owned").textContent=counts[1];
-get("done").textContent=counts[2];
-
-const percent=Math.round(counts[2]/101*100);
-get("bar").style.width=percent+"%";
-get("percent").textContent=
-counts[2]+" / 101 · "+percent+" %";
-
-const filter=get("filter").value;
-const grid=get("cards");
-grid.innerHTML="";
-
-states.forEach((state,i)=>{
-if(filter!=="all"&&Number(filter)!==state)return;
-
-const card=document.createElement("button");
-card.className="card";
-card.dataset.state=state;
-card.disabled=!ready;
-card.setAttribute("aria-label",
-"Karta "+(i+1)+": "+labels[state]);
-
-card.innerHTML=
-'<div class="inner">'+
-'<span class="symbol">'+symbols[state]+'</span>'+
-'<span class="number">'+(i+1)+'</span>'+
-'<span class="label">'+labels[state]+'</span>'+
-'</div>';
-
-card.onclick=()=>{
-if(!ready)return;
-const next=(states[i]+1)%3;
-states[i]=next;
-saveCards({[String(i+1)]:next});
-render();
-};
-
-grid.appendChild(card);
+ids.forEach(n=>{
+counts[state(n)]++;
 });
+
+['missing','owned','done'].forEach((k,i)=>{
+$(k).textContent=counts[i];
+});
+
+$('bar').style.width=counts[2]+'%';
+
+$('percent').textContent=
+counts[2]+' / 100 · '+counts[2]+' %';
+
+/* TOKENY */
+
+const complete=groups.map(g=>
+g.every(c=>state(c[0])===2)
+);
+
+const a=complete.slice(0,10)
+.filter(Boolean).length;
+
+const b=complete.slice(10)
+.filter(Boolean).length;
+
+$('intellect').textContent=a+' / 10';
+$('power').textContent=b+' / 10';
+
+$('completed').textContent=
+'Dokončené sady: '+(a+b)+' / 20';
+
+/* FILTROVÁNÍ */
+
+const root=$('sets');
+
+root.replaceChildren();
+
+const f=$('filter').value;
+const cat=$('category').value;
+
+let last=-1;
+
+groups.forEach((g,i)=>{
+
+const type=i<10?0:1;
+
+if(cat!=='all'&&Number(cat)!==type)return;
+
+const visible=g.filter(c=>
+f==='all'||state(c[0])===Number(f)
+);
+
+if(!visible.length)return;
+
+/* NADPIS KATEGORIE */
+
+if(last!==type){
+
+const h=document.createElement('h2');
+
+h.textContent=type?
+'⚡ SADA PRO MAGICKOU SÍLU':
+'✧ SADA PRO INTELEKT';
+
+root.append(h);
+
+last=type;
+
 }
 
-get("filter").onchange=render;
+/* JEDNOTLIVÉ SADY */
 
-get("reset").onclick=()=>{
+const box=document.createElement('section');
+
+box.className=
+'set'+(complete[i]?' complete':'');
+
+const done=g.filter(c=>
+state(c[0])===2
+).length;
+
+box.innerHTML=
+
+'<div class="heading">'+
+
+'<h3>Sada pro '+
+(type?'magickou sílu':'intelekt')+
+' '+roman[i%10]+'.</h3>'+
+
+'<span>'+done+'/5</span>'+
+
+'</div>'+
+
+'<div class="cards"></div>'+
+
+'<div class="progress">'+
+'<i style="width:'+done*20+'%"></i>'+
+'</div>'+
+
+'<p class="token">'+
+
+(complete[i]?
+'✦ Token získán ✦':
+'Token zatím nezískán')+
+
+'</p>';
+
+/* JEDNOTLIVÉ KARTIČKY */
+
+visible.forEach(([n,name])=>{
+
+const v=state(n);
+
+const c=document.createElement('button');
+
+c.className='card '+(
+
+gold.has(n)?'gold':
+silver.has(n)?'silver':
+'bronze'
+
+);
+
+c.dataset.state=v;
+
+c.disabled=!ready;
+
+c.setAttribute(
+'aria-label',
+'Karta '+n+': '+name+', '+labels[v]
+);
+
+c.innerHTML=
+
+'<span class="inner">'+
+
+'<span class="symbol">'+
+symbols[v]+
+'</span>'+
+
+'<span class="number">'+
+n+
+'</span>'+
+
+'<span class="name">'+
+name+
+'</span>'+
+
+'<span class="label">'+
+labels[v]+
+'</span>'+
+
+'</span>';
+
+/* KLIKNUTÍ NA KARTU */
+
+c.onclick=()=>{
+
 if(!ready)return;
-if(!confirm("Opravdu vynulovat všech 101 karet?"))return;
-const cards={};
-for(let i=1;i<=101;i++)cards[String(i)]=0;
-states=Array(101).fill(0);
-saveCards(cards);
-render();
+
+const next=(state(n)+1)%3;
+
+states={
+...states,
+[n]:next
 };
+
+save({[n]:next});
+
+render();
+
+};
+
+box.querySelector('.cards').append(c);
+
+});
+
+root.append(box);
+
+});
+
+}
+
+/* OVLÁDÁNÍ */
+
+$('filter').onchange=render;
+$('category').onchange=render;
+
+$('reset').onclick=()=>{
+
+if(
+ready&&
+confirm('Opravdu vynulovat všech 100 karet?')
+){
+
+const cards=Object.fromEntries(
+ids.map(n=>[n,0])
+);
+
+states=cards;
+
+save(cards);
+
+render();
+
+}
+
+};
+
 </script>
 </body>
 </html>
