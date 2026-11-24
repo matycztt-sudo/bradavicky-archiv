@@ -985,5 +985,177 @@ render();
 };
 
 </script>
+  <style>
+.search-box{
+display:flex;
+align-items:center;
+gap:8px;
+margin:16px 0;
+padding:5px 10px;
+border:1px solid #b99a58;
+border-radius:9px;
+background:#100e18;
+box-shadow:0 0 12px #d9b76d22;
+}
+
+.search-box input{
+flex:1;
+min-width:0;
+border:none;
+outline:none;
+background:transparent;
+color:#f3d58d;
+font-size:16px;
+margin:0;
+}
+
+.search-box button{
+border:none;
+background:transparent;
+color:#e8d4a5;
+padding:8px;
+}
+
+#searchCount{
+font-size:13px;
+color:#c4ab7c;
+text-align:center;
+margin:8px 0;
+}
+</style>
+
+<script>
+(function(){
+
+const controls=document.querySelector(
+'#archive .controls'
+);
+
+const root=document.getElementById('sets');
+
+const search=document.createElement('div');
+
+search.className='search-box';
+
+search.innerHTML=`
+<span>🔍</span>
+<input id="cardSearch"
+type="search"
+placeholder="Číslo nebo jméno kouzelníka…"
+autocomplete="off"
+aria-label="Vyhledat kartičku">
+<button id="clearSearch"
+aria-label="Vymazat hledání">✕</button>
+`;
+
+controls.before(search);
+
+const info=document.createElement('p');
+
+info.id='searchCount';
+
+search.after(info);
+
+const input=document.getElementById(
+'cardSearch'
+);
+
+function normalize(text){
+return text.toLowerCase()
+.normalize('NFD')
+.replace(/[\u0300-\u036f]/g,'');
+}
+
+function searchCards(){
+
+const query=normalize(
+input.value.trim()
+);
+
+let count=0;
+
+root.querySelectorAll('.set')
+.forEach(set=>{
+
+let found=0;
+
+set.querySelectorAll('.card')
+.forEach(card=>{
+
+const number=card.querySelector(
+'.number'
+).textContent.trim();
+
+const name=normalize(
+card.querySelector('.name').textContent
+);
+
+const match=!query||
+number===query||
+name.includes(query);
+
+card.hidden=!match;
+
+if(match){
+found++;
+count++;
+}
+
+});
+
+set.hidden=found===0;
+
+});
+
+root.querySelectorAll('h2')
+.forEach(h=>{
+
+let next=h.nextElementSibling;
+let visible=false;
+
+while(next&&next.tagName!=='H2'){
+
+if(!next.hidden)visible=true;
+
+next=next.nextElementSibling;
+
+}
+
+h.hidden=!visible;
+
+});
+
+info.textContent=query?
+(count?
+'Nalezeno kartiček: '+count:
+'Žádná kartička nenalezena.'):
+'';
+
+}
+
+input.addEventListener(
+'input',searchCards
+);
+
+document.getElementById(
+'clearSearch'
+).onclick=()=>{
+
+input.value='';
+searchCards();
+input.focus();
+
+};
+
+new MutationObserver(searchCards)
+.observe(root,{
+childList:true,
+subtree:true
+});
+
+searchCards();
+
+})();
+</script>
 </body>
 </html>
