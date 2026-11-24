@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#15121f">
+<title>Bradavický archiv</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+padding:14px;
+background:radial-gradient(ellipse at top,#30263e,#100e18 70%);
+background-attachment:fixed;
+color:#e8d4a5;
+font-family:Georgia,serif;
+min-height:100vh;
+}
+main{max-width:1000px;margin:auto}
+header{
+text-align:center;
+border:1px solid #9d8050;
+border-radius:12px;
+padding:18px 10px;
+background:#1b1725;
+box-shadow:0 8px 30px #0006;
+}
+.magic{font-size:36px;color:#edcc80}
+.subtitle{
+font-size:11px;
+letter-spacing:4px;
+color:#bca477;
+}
+h1{
+font-size:clamp(23px,5vw,38px);
+color:#f3d58d;
+margin:12px 0;
+}
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin:20px 0 12px;
+}
+.stat{
+border:1px solid #76603d;
+border-radius:7px;
+padding:12px 3px;
+font-size:13px;
+}
+.stat strong{
+display:block;
+font-size:28px;
+margin-bottom:5px;
+}
+.gold{color:#f6cf70}
+.green{color:#8ce4b3}
+.progress{
+height:10px;
+border:1px solid #927746;
+border-radius:20px;
+overflow:hidden;
+background:#0e0c15;
+}
+#bar{
+height:100%;
+width:0;
+background:linear-gradient(90deg,#997033,#f5d887);
+transition:width .3s;
+}
+.controls{
+display:flex;
+justify-content:space-between;
+gap:8px;
+margin-top:15px;
+}
+select,button{
+font-family:inherit;
+cursor:pointer;
+touch-action:manipulation;
+}
+select,.reset{
+background:#262032;
+color:#e8d4a5;
+border:1px solid #927746;
+border-radius:6px;
+padding:10px;
+font-size:14px;
+}
+#cards{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(72px,1fr));
+gap:9px;
+margin-top:18px;
+}
+.card{
+position:relative;
+aspect-ratio:3/4;
+min-width:0;
+border:1px solid #ad905b;
+border-radius:7px;
+padding:5px;
+background:linear-gradient(145deg,#f1dfb7,#bba078);
+color:#49351e;
+box-shadow:0 4px 8px #0006;
+transition:transform .15s,background .2s;
+}
+.card:active{transform:scale(.94)}
+.inner{
+border:1px solid currentColor;
+border-radius:4px;
+height:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:5px;
+}
+.symbol{font-size:17px}
+.number{font-size:27px;font-weight:bold}
+.label{font-size:10px}
+.card[data-state="1"]{
+background:linear-gradient(145deg,#ffe6a0,#c5912e);
+color:#513707;
+box-shadow:0 0 13px #e9b84b77;
+}
+.card[data-state="2"]{
+background:linear-gradient(145deg,#326a50,#133b30);
+color:#c6f5d8;
+border-color:#8ad6a9;
+box-shadow:0 0 13px #4ac78055;
+}
+footer{
+text-align:center;
+padding:25px 0;
+color:#bca477;
+letter-spacing:2px;
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="magic">✦ ☾ ✦</div>
+<div class="subtitle">BRADAVICKÝ ARCHIV</div>
+<h1>Kniha kouzelných karet</h1>
+<div class="subtitle">SBÍRKA I – CI</div>
+<p>Nemám → Mám → Hotovo</p>
+<div class="stats">
+<div class="stat">
+<strong id="missing">101</strong>Nemám
+</div>
+<div class="stat gold">
+<strong id="owned">0</strong>Mám u sebe
+</div>
+<div class="stat green">
+<strong id="done">0</strong>Hotovo
+</div>
+</div>
+<div class="progress"><div id="bar"></div></div>
+<p id="percent">0 / 101 · 0 %</p>
+<div class="controls">
+<select id="filter">
+<option value="all">Všechny karty</option>
+<option value="0">Nemám</option>
+<option value="1">Mám u sebe</option>
+<option value="2">Hotovo</option>
+</select>
+<button class="reset" id="reset">Vynulovat</button>
+</div>
+</header>
+<section id="cards"></section>
+<footer>✦ Mischief managed ✦</footer>
+</main>
+<script>
+const KEY="bradavicky-archiv";
+let states=Array(101).fill(0);
+try{
+const saved=JSON.parse(localStorage.getItem(KEY));
+if(Array.isArray(saved)&&saved.length===101&&saved.every(v=>[0,1,2].includes(v)))states=saved;
+}catch(e){}
+const get=id=>document.getElementById(id);
+const labels=["Nemám","Mám","Hotovo"];
+const symbols=["✧","✦","✓✓"];
+
+function save(){
+try{
+localStorage.setItem(KEY,JSON.stringify(states));
+}catch(e){
+alert("Prohlížeč neumožnil uložit pokrok.");
+}
+}
+function render(){
+const counts=[0,0,0];
+states.forEach(s=>counts[s]++);
+get("missing").textContent=counts[0];
+get("owned").textContent=counts[1];
+get("done").textContent=counts[2];
+const percent=Math.round(counts[2]/101*100);
+get("bar").style.width=percent+"%";
+get("percent").textContent=counts[2]+" / 101 · "+percent+" %";
+const filter=get("filter").value;
+const grid=get("cards");
+grid.innerHTML="";
+states.forEach((state,i)=>{
+if(filter!=="all"&&Number(filter)!==state)return;
+const card=document.createElement("button");
+card.className="card";
+card.dataset.state=state;
+card.setAttribute("aria-label","Karta "+(i+1)+": "+labels[state]);
+card.innerHTML='<div class="inner"><span class="symbol">'+symbols[state]+'</span><span class="number">'+(i+1)+'</span><span class="label">'+labels[state]+'</span></div>';
+card.onclick=()=>{
+states[i]=(states[i]+1)%3;
+save();
+render();
+};
+grid.appendChild(card);
+});
+}
+get("filter").onchange=render;
+get("reset").onclick=()=>{
+if(confirm("Opravdu vynulovat všech 101 karet?")){
+states=Array(101).fill(0);
+save();
+render();
+}
+};
+render();
+</script>
+</body>
+</html>
