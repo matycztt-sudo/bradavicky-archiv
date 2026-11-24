@@ -2,40 +2,81 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#15121f">
 <title>Bradavický archiv</title>
 <style>
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{
 margin:0;
 padding:14px;
-background:radial-gradient(ellipse at top,#30263e,#100e18 70%);
-background-attachment:fixed;
-color:#e8d4a5;
-font-family:Georgia,serif;
 min-height:100vh;
+font-family:Georgia,serif;
+color:#e8d4a5;
+background:
+radial-gradient(circle at 15% 20%,#bca47755 1px,transparent 2px),
+radial-gradient(circle at 80% 70%,#ffffff33 1px,transparent 2px),
+radial-gradient(ellipse at top,#30263e,#100e18 75%);
+background-size:113px 137px,173px 191px,100% 100%;
+background-attachment:fixed;
 }
 main{max-width:1000px;margin:auto}
-header{
-text-align:center;
+.panel{
+background:#1b1725;
 border:1px solid #9d8050;
 border-radius:12px;
-padding:18px 10px;
-background:#1b1725;
+padding:20px 12px;
+text-align:center;
 box-shadow:0 8px 30px #0006;
 }
-.magic{font-size:36px;color:#edcc80}
+.magic{font-size:38px;color:#edcc80}
 .subtitle{
 font-size:11px;
-letter-spacing:4px;
+letter-spacing:3px;
 color:#bca477;
 }
 h1{
-font-size:clamp(23px,5vw,38px);
 color:#f3d58d;
+font-size:clamp(24px,5vw,38px);
 margin:12px 0;
+}
+h2{color:#f3d58d}
+#login{
+max-width:420px;
+margin:8vh auto 20px;
+}
+input,button,select{
+font-family:inherit;
+font-size:16px;
+border:1px solid #927746;
+border-radius:7px;
+padding:12px;
+touch-action:manipulation;
+}
+input{
+width:100%;
+margin:6px 0;
+background:#100e18;
+color:#f3d58d;
+}
+button,select{
+background:#262032;
+color:#e8d4a5;
+cursor:pointer;
+}
+button:disabled{opacity:.5;cursor:wait}
+.primary{
+background:linear-gradient(145deg,#f3d58d,#b28a43);
+color:#302013;
+font-weight:bold;
+}
+.full{width:100%;margin-top:10px}
+.message{
+font-size:13px;
+line-height:1.5;
+overflow-wrap:anywhere;
 }
 .stats{
 display:grid;
@@ -47,7 +88,7 @@ margin:20px 0 12px;
 border:1px solid #76603d;
 border-radius:7px;
 padding:12px 3px;
-font-size:13px;
+font-size:12px;
 }
 .stat strong{
 display:block;
@@ -74,19 +115,7 @@ display:flex;
 justify-content:space-between;
 gap:8px;
 margin-top:15px;
-}
-select,button{
-font-family:inherit;
-cursor:pointer;
-touch-action:manipulation;
-}
-select,.reset{
-background:#262032;
-color:#e8d4a5;
-border:1px solid #927746;
-border-radius:6px;
-padding:10px;
-font-size:14px;
+flex-wrap:wrap;
 }
 #cards{
 display:grid;
@@ -95,7 +124,6 @@ gap:9px;
 margin-top:18px;
 }
 .card{
-position:relative;
 aspect-ratio:3/4;
 min-width:0;
 border:1px solid #ad905b;
@@ -104,9 +132,9 @@ padding:5px;
 background:linear-gradient(145deg,#f1dfb7,#bba078);
 color:#49351e;
 box-shadow:0 4px 8px #0006;
-transition:transform .15s,background .2s;
+transition:transform .15s;
 }
-.card:active{transform:scale(.94)}
+.card:active{transform:scale(.93)}
 .inner{
 border:1px solid currentColor;
 border-radius:4px;
@@ -131,6 +159,11 @@ color:#c6f5d8;
 border-color:#8ad6a9;
 box-shadow:0 0 13px #4ac78055;
 }
+#sync{font-size:13px;color:#8ce4b3}
+#account{
+font-size:12px;
+overflow-wrap:anywhere;
+}
 footer{
 text-align:center;
 padding:25px 0;
@@ -141,12 +174,48 @@ letter-spacing:2px;
 </head>
 <body>
 <main>
-<header>
+
+<section id="login" class="panel">
+<div class="magic">✦ ⚡ ✦</div>
+<div class="subtitle">BRADAVICKÝ ARCHIV</div>
+<h1>Kniha kouzelných karet</h1>
+<p>Vstup do kouzelnického světa</p>
+
+<input id="email" type="email"
+placeholder="E-mailová adresa"
+autocomplete="email">
+
+<input id="password" type="password"
+placeholder="Heslo"
+autocomplete="current-password">
+
+<button id="signin" class="primary full" disabled>
+Přihlásit se
+</button>
+
+<button id="register" class="full" disabled>
+Vytvořit kouzelnický účet
+</button>
+
+<button id="forgot" class="full" disabled>
+Zapomenuté heslo
+</button>
+
+<p id="message" class="message">
+Načítání kouzelnického portálu…
+</p>
+<div class="subtitle">✧ ALOHOMORA ✧</div>
+</section>
+
+<section id="archive" hidden>
+<header class="panel">
 <div class="magic">✦ ☾ ✦</div>
 <div class="subtitle">BRADAVICKÝ ARCHIV</div>
 <h1>Kniha kouzelných karet</h1>
 <div class="subtitle">SBÍRKA I – CI</div>
-<p>Nemám → Mám → Hotovo</p>
+<p id="account"></p>
+<p id="sync">Připojování k databázi…</p>
+
 <div class="stats">
 <div class="stat">
 <strong id="missing">101</strong>Nemám
@@ -158,8 +227,14 @@ letter-spacing:2px;
 <strong id="done">0</strong>Hotovo
 </div>
 </div>
-<div class="progress"><div id="bar"></div></div>
+
+<div class="progress">
+<div id="bar"></div>
+</div>
+
 <p id="percent">0 / 101 · 0 %</p>
+<p>Nemám → Mám → Hotovo</p>
+
 <div class="controls">
 <select id="filter">
 <option value="all">Všechny karty</option>
@@ -167,66 +242,270 @@ letter-spacing:2px;
 <option value="1">Mám u sebe</option>
 <option value="2">Hotovo</option>
 </select>
-<button class="reset" id="reset">Vynulovat</button>
+<button id="reset" disabled>Vynulovat</button>
+<button id="logout">Odhlásit se</button>
 </div>
 </header>
+
 <section id="cards"></section>
 <footer>✦ Mischief managed ✦</footer>
+</section>
+
 </main>
-<script>
-const KEY="bradavicky-archiv";
-let states=Array(101).fill(0);
-try{
-const saved=JSON.parse(localStorage.getItem(KEY));
-if(Array.isArray(saved)&&saved.length===101&&saved.every(v=>[0,1,2].includes(v)))states=saved;
-}catch(e){}
+
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+sendPasswordResetEmail,
+signOut
+} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+setDoc,
+onSnapshot
+} from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBt-Y_2EttZ9zqcccBeZuZAVa4gmTCPafA",
+authDomain: "bradavicky-archiv.firebaseapp.com",
+projectId: "bradavicky-archiv",
+storageBucket: "bradavicky-archiv.firebasestorage.app",
+messagingSenderId: "871394630583",
+appId: "1:871394630583:web:408afaa6bf8ba46c40e632"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+auth.languageCode="cs";
+
 const get=id=>document.getElementById(id);
 const labels=["Nemám","Mám","Hotovo"];
 const symbols=["✧","✦","✓✓"];
 
-function save(){
+let states=Array(101).fill(0);
+let currentUser=null;
+let unsubscribe=null;
+let ready=false;
+let pending=0;
+let session=0;
+
+function message(text){
+get("message").textContent=text;
+}
+
+function errorText(e){
+const errors={
+"auth/invalid-email":"Neplatná e-mailová adresa.",
+"auth/email-already-in-use":"Tento e-mail již má účet.",
+"auth/weak-password":"Heslo musí mít alespoň 6 znaků.",
+"auth/invalid-credential":"Nesprávný e-mail nebo heslo.",
+"auth/wrong-password":"Nesprávný e-mail nebo heslo.",
+"auth/user-not-found":"Nesprávný e-mail nebo heslo.",
+"auth/network-request-failed":"Zkontroluj připojení k internetu.",
+"auth/too-many-requests":"Příliš mnoho pokusů. Zkus to později.",
+"auth/operation-not-allowed":"Přihlašování není povoleno ve Firebase.",
+"permission-denied":"Zkontroluj pravidla databáze Firebase."
+};
+return errors[e.code]||"Chyba: "+e.code;
+}
+
+function lockAuth(value){
+["signin","register","forgot"].forEach(id=>{
+get(id).disabled=value;
+});
+}
+
+get("signin").onclick=async()=>{
+lockAuth(true);
+message("Přihlašování…");
 try{
-localStorage.setItem(KEY,JSON.stringify(states));
+await signInWithEmailAndPassword(
+auth,get("email").value.trim(),
+get("password").value
+);
 }catch(e){
-alert("Prohlížeč neumožnil uložit pokrok.");
+message(errorText(e));
+}finally{lockAuth(false)}
+};
+
+get("register").onclick=async()=>{
+lockAuth(true);
+message("Vytváření účtu…");
+try{
+await createUserWithEmailAndPassword(
+auth,get("email").value.trim(),
+get("password").value
+);
+}catch(e){
+message(errorText(e));
+}finally{lockAuth(false)}
+};
+
+get("forgot").onclick=async()=>{
+lockAuth(true);
+try{
+await sendPasswordResetEmail(
+auth,get("email").value.trim()
+);
+message("Pokud účet existuje, obdržíš e-mail pro obnovu hesla.");
+}catch(e){
+message(errorText(e));
+}finally{lockAuth(false)}
+};
+
+get("logout").onclick=async()=>{
+if(pending){
+alert("Počkej na dokončení ukládání.");
+return;
+}
+try{await signOut(auth)}
+catch(e){get("sync").textContent=errorText(e)}
+};
+
+onAuthStateChanged(auth,user=>{
+session++;
+const activeSession=session;
+if(unsubscribe)unsubscribe();
+unsubscribe=null;
+currentUser=user;
+states=Array(101).fill(0);
+ready=false;
+pending=0;
+get("cards").innerHTML="";
+get("reset").disabled=true;
+
+if(!user){
+get("login").hidden=false;
+get("archive").hidden=true;
+get("password").value="";
+message("");
+lockAuth(false);
+return;
+}
+
+get("login").hidden=true;
+get("archive").hidden=false;
+get("account").textContent=user.email;
+get("password").value="";
+get("sync").textContent="☁ Načítání sbírky…";
+
+const ref=doc(db,"users",user.uid);
+
+unsubscribe=onSnapshot(ref,
+{includeMetadataChanges:true},
+snapshot=>{
+if(activeSession!==session)return;
+
+const data=snapshot.data()||{};
+const cards=data.cards||{};
+states=Array.from({length:101},(_,i)=>{
+const v=cards[String(i+1)];
+return [0,1,2].includes(v)?v:0;
+});
+
+ready=true;
+get("reset").disabled=false;
+
+get("sync").textContent=
+snapshot.metadata.hasPendingWrites?
+"☁ Ukládání…":
+snapshot.metadata.fromCache?
+"☁ Místní data – čekám na připojení":
+"✓ Synchronizováno";
+
+render();
+},e=>{
+if(activeSession!==session)return;
+ready=false;
+get("reset").disabled=true;
+get("sync").textContent=errorText(e);
+render();
+});
+});
+
+async function saveCards(cards){
+if(!currentUser||!ready)return;
+const activeSession=session;
+const ref=doc(db,"users",currentUser.uid);
+pending++;
+get("sync").textContent="☁ Ukládání…";
+try{
+await setDoc(ref,{cards},{merge:true});
+}catch(e){
+if(activeSession===session){
+get("sync").textContent=errorText(e);
+}
+}finally{
+if(activeSession===session)pending--;
 }
 }
+
 function render(){
 const counts=[0,0,0];
 states.forEach(s=>counts[s]++);
+
 get("missing").textContent=counts[0];
 get("owned").textContent=counts[1];
 get("done").textContent=counts[2];
+
 const percent=Math.round(counts[2]/101*100);
 get("bar").style.width=percent+"%";
-get("percent").textContent=counts[2]+" / 101 · "+percent+" %";
+get("percent").textContent=
+counts[2]+" / 101 · "+percent+" %";
+
 const filter=get("filter").value;
 const grid=get("cards");
 grid.innerHTML="";
+
 states.forEach((state,i)=>{
 if(filter!=="all"&&Number(filter)!==state)return;
+
 const card=document.createElement("button");
 card.className="card";
 card.dataset.state=state;
-card.setAttribute("aria-label","Karta "+(i+1)+": "+labels[state]);
-card.innerHTML='<div class="inner"><span class="symbol">'+symbols[state]+'</span><span class="number">'+(i+1)+'</span><span class="label">'+labels[state]+'</span></div>';
+card.disabled=!ready;
+card.setAttribute("aria-label",
+"Karta "+(i+1)+": "+labels[state]);
+
+card.innerHTML=
+'<div class="inner">'+
+'<span class="symbol">'+symbols[state]+'</span>'+
+'<span class="number">'+(i+1)+'</span>'+
+'<span class="label">'+labels[state]+'</span>'+
+'</div>';
+
 card.onclick=()=>{
-states[i]=(states[i]+1)%3;
-save();
+if(!ready)return;
+const next=(states[i]+1)%3;
+states[i]=next;
+saveCards({[String(i+1)]:next});
 render();
 };
+
 grid.appendChild(card);
 });
 }
+
 get("filter").onchange=render;
+
 get("reset").onclick=()=>{
-if(confirm("Opravdu vynulovat všech 101 karet?")){
+if(!ready)return;
+if(!confirm("Opravdu vynulovat všech 101 karet?"))return;
+const cards={};
+for(let i=1;i<=101;i++)cards[String(i)]=0;
 states=Array(101).fill(0);
-save();
+saveCards(cards);
 render();
-}
 };
-render();
 </script>
 </body>
 </html>
